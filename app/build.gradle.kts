@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.hilt.android)
@@ -7,20 +8,17 @@ plugins {
 
 android {
     namespace = "com.example.ouraiapp"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.ouraiapp"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        val openAiApiKey = providers.gradleProperty("OPENAI_API_KEY").orNull ?: ""
-        val openAiBaseUrl = providers.gradleProperty("OPENAI_BASE_URL").orNull ?: "https://api.openai.com/"
+
+        val openAiApiKey = providers.gradleProperty("OPENAI_API_KEY").getOrElse("")
+        val openAiBaseUrl = providers.gradleProperty("OPENAI_BASE_URL").getOrElse("https://api.openai.com/")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "OPENAI_API_KEY", "\"$openAiApiKey\"")
@@ -40,12 +38,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    kotlinOptions {
-        jvmTarget = "11"
     }
 }
 
@@ -54,7 +52,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

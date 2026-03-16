@@ -1,44 +1,43 @@
 [versions]
-agp = "9.1.0"
+agp = "8.7.3"
 androidxHiltNavigationCompose = "1.2.0"
-coreKtx = "1.10.1"
+coreKtx = "1.15.0"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 lifecycleViewmodelCompose = "2.8.7"
 lifecycleRuntimeCompose = "2.8.7"
 activityCompose = "1.10.1"
-kotlin = "2.2.10"
-composeBom = "2024.09.00"
-googleDevtoolsKsp = "2.3.5"
-navigationCompose = "2.8.9"
-roomRuntime = "2.7.0"
-roomKtx = "2.7.0"
-roomCompiler = "2.7.0"
-hilt = "2.52"
-hiltCompiler = "2.52"
-kotlinxCoroutinesTest = "1.10.2"
+kotlin = "2.1.10"
+composeBom = "2025.02.00"
+googleDevtoolsKsp = "2.1.10-1.0.30"
+navigationCompose = "2.8.8"
+roomRuntime = "2.7.0-alpha13"
+roomKtx = "2.7.0-alpha13"
+roomCompiler = "2.7.0-alpha13"
+hilt = "2.55"
+hiltCompiler = "2.55"
+kotlinxCoroutinesTest = "1.10.1"
 core = "1.6.1"
 runner = "1.6.2"
 coilCompose = "2.7.0"
-retrofit = "2.12.0"
-converterMoshi = "2.12.0"
-kotlinxCoroutinesAndroid = "1.10.2"
-kotlinxCoroutinesCore = "1.10.2"
-accompanistPermissions = "0.37.3"
+retrofit = "2.11.0"
+converterMoshi = "2.11.0"
+kotlinxCoroutinesAndroid = "1.10.1"
+kotlinxCoroutinesCore = "1.10.1"
+accompanistPermissions = "0.37.0"
 playServicesLocation = "21.3.0"
-cameraCamera2 = "1.5.0"
-cameraLifecycle = "1.5.0"
-cameraView = "1.5.0"
-cameraCore = "1.5.0"
-loggingInterceptor = "4.10.0"
-okhttp = "4.10.0"
-moshiKotlin = "1.15.2"
-moshiKotlinCodegen = "1.15.2"
-datastorePreferences = "1.1.7"
-material = "1.13.0"
-lifecycleRuntimeComposeAndroid = "2.8.7"
+cameraCamera2 = "1.4.1"
+cameraLifecycle = "1.4.1"
+cameraView = "1.4.1"
+cameraCore = "1.4.1"
+loggingInterceptor = "4.12.0"
+okhttp = "4.12.0"
+moshiKotlin = "1.15.0"
+moshiKotlinCodegen = "1.15.0"
+datastorePreferences = "1.1.2"
+material = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -61,7 +60,6 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
-androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
@@ -90,6 +88,7 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "googleDevtoolsKsp" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
