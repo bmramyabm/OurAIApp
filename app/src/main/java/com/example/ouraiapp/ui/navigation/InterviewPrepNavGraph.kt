@@ -38,6 +38,9 @@ fun InterviewPrepNavGraph(startDestination: String) {
             HomeScreen(
                 onSelectLevel = { level ->
                     navController.navigate(AppDestinations.quizLengthRoute(level))
+                },
+                onOpenTutorial = {
+                    navController.navigate(AppDestinations.ONBOARDING)
                 }
             )
         }

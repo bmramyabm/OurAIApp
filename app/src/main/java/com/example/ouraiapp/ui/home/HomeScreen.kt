@@ -22,11 +22,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -41,7 +43,8 @@ import com.example.ouraiapp.domain.model.DifficultyLevel
 
 @Composable
 fun HomeScreen(
-    onSelectLevel: (DifficultyLevel) -> Unit
+    onSelectLevel: (DifficultyLevel) -> Unit,
+    onOpenTutorial: () -> Unit
 ) {
     val levels = DifficultyLevel.entries
 
@@ -60,25 +63,44 @@ fun HomeScreen(
         item { Spacer(modifier = Modifier.height(12.dp)) }
         item {
             Column {
-                Surface(
-                    shape = RoundedCornerShape(28.dp),
-                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.16f),
-                    modifier = Modifier.size(88.dp)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Top
                 ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = Icons.Outlined.Code,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(42.dp)
-                        )
+                    Surface(
+                        shape = RoundedCornerShape(28.dp),
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.16f),
+                        modifier = Modifier.size(88.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = Icons.Outlined.Code,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(42.dp)
+                            )
+                        }
+                    }
+                    Surface(
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f)
+                    ) {
+                        IconButton(onClick = onOpenTutorial) {
+                            Icon(
+                                imageVector = Icons.Outlined.HelpOutline,
+                                contentDescription = "Open tutorial",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
                     text = "Android Interview Prep",
                     style = MaterialTheme.typography.displaySmall,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -182,7 +204,8 @@ private fun LevelCard(
                     Text(
                         text = difficultyLevel.title,
                         style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     Surface(

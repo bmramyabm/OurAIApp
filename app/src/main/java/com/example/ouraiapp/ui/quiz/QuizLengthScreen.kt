@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.ouraiapp.domain.model.DifficultyLevel
@@ -52,6 +54,7 @@ fun QuizLengthScreen(
                     colors = listOf(Color(0xFF06111A), Color(0xFF0A1021))
                 )
             )
+            .statusBarsPadding()
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
@@ -87,7 +90,8 @@ fun QuizLengthScreen(
                 Text(
                     text = "Choose Quiz Length",
                     style = MaterialTheme.typography.displaySmall,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
@@ -108,11 +112,13 @@ fun QuizLengthScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(18.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    InfoPill("30 questions in bank")
-                    InfoPill("Randomized each time")
-                    InfoPill("No time limit")
+                    InfoPill("30 questions in\nbank", Modifier.weight(1f))
+                    InfoDivider()
+                    InfoPill("Randomized each\ntime", Modifier.weight(1f))
+                    InfoDivider()
+                    InfoPill("No time\nlimit", Modifier.weight(1f))
                 }
             }
         }
@@ -171,8 +177,16 @@ private fun QuizLengthCard(
                 shape = RoundedCornerShape(18.dp),
                 modifier = Modifier.size(62.dp)
             ) {
-                Box(contentAlignment = Alignment.Center) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
                     Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    Text(
+                        text = "${option.questionCount}Q",
+                        color = Color.White,
+                        style = MaterialTheme.typography.labelLarge
+                    )
                 }
             }
             Column(
@@ -183,23 +197,42 @@ private fun QuizLengthCard(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = option.title,
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier.weight(1f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Surface(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.16f),
+                        color = when (option) {
+                            QuizLengthOption.QUICK -> Color(0xFF0A5A86)
+                            QuizLengthOption.STANDARD -> Color(0xFF4D378D)
+                            QuizLengthOption.FULL -> Color(0xFF7C5B00)
+                        },
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier.padding(start = 10.dp)
                     ) {
                         Text(
                             text = "${option.questionCount} questions",
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
-                            color = MaterialTheme.colorScheme.primary
+                            color = when (option) {
+                                QuizLengthOption.QUICK -> Color(0xFF54C7FF)
+                                QuizLengthOption.STANDARD -> Color(0xFFC4A5FF)
+                                QuizLengthOption.FULL -> Color(0xFFFFC940)
+                            },
+                            style = MaterialTheme.typography.labelLarge,
+                            maxLines = 1
                         )
                     }
                 }
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(option.subtitle, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    option.subtitle,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(option.estimate, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
@@ -213,10 +246,19 @@ private fun QuizLengthCard(
 }
 
 @Composable
-private fun InfoPill(text: String) {
+private fun InfoPill(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         style = MaterialTheme.typography.labelLarge,
-        color = MaterialTheme.colorScheme.onSurfaceVariant
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun InfoDivider() {
+    Text(
+        text = "|",
+        color = MaterialTheme.colorScheme.outline
     )
 }
