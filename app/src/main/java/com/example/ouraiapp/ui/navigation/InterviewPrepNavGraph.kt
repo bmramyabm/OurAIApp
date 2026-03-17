@@ -15,6 +15,7 @@ import com.example.ouraiapp.ui.quiz.QuizScreen
 import com.example.ouraiapp.ui.quiz.QuizViewModel
 import com.example.ouraiapp.ui.review.ReviewScreen
 import com.example.ouraiapp.ui.review.ReviewViewModel
+import com.example.ouraiapp.ui.splash.SplashScreen
 
 @Composable
 fun InterviewPrepNavGraph(startDestination: String) {
@@ -24,6 +25,16 @@ fun InterviewPrepNavGraph(startDestination: String) {
         navController = navController,
         startDestination = startDestination
     ) {
+        composable(AppDestinations.SPLASH) {
+            SplashScreen(
+                onNavigateToTopics = {
+                    navController.navigate(AppDestinations.HOME) {
+                        popUpTo(AppDestinations.SPLASH) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(AppDestinations.ONBOARDING) {
             OnboardingScreen(
                 onSkip = {
@@ -83,6 +94,13 @@ fun InterviewPrepNavGraph(startDestination: String) {
                 onBackHome = {
                     navController.navigate(AppDestinations.HOME) {
                         popUpTo(AppDestinations.HOME) { inclusive = true }
+                    }
+                },
+                onRetryQuiz = { summary ->
+                    navController.navigate(
+                        AppDestinations.quizRoute(summary.difficultyLevel, summary.totalQuestions)
+                    ) {
+                        popUpTo(AppDestinations.REVIEW) { inclusive = true }
                     }
                 }
             )

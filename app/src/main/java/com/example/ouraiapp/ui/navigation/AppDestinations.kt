@@ -3,6 +3,7 @@ package com.example.ouraiapp.ui.navigation
 import com.example.ouraiapp.domain.model.DifficultyLevel
 
 object AppDestinations {
+    const val SPLASH = "splash"
     const val ONBOARDING = "onboarding"
     const val HOME = "home"
     const val QUIZ_LENGTH = "quiz_length/{difficulty}"

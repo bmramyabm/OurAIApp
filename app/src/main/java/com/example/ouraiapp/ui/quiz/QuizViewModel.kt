@@ -28,6 +28,7 @@ class QuizViewModel @Inject constructor(
     private val requestedCount: Int = savedStateHandle["questionCount"] ?: 10
 
     private val answersByQuestionId = linkedMapOf<Int, QuestionResult>()
+    private val quizStartTimeMillis = System.currentTimeMillis()
 
     private val _uiState = MutableStateFlow(
         QuizUiState(
@@ -138,6 +139,7 @@ class QuizViewModel @Inject constructor(
             correctCount = results.count { it.isCorrect },
             wrongCount = results.count { !it.isCorrect && !it.isSkipped },
             skippedCount = results.count { it.isSkipped },
+            elapsedTimeMillis = System.currentTimeMillis() - quizStartTimeMillis,
             results = results
         )
         saveQuizSummaryUseCase(summary)

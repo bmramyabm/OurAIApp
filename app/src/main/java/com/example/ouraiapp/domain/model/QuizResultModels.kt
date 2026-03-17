@@ -13,5 +13,6 @@ data class QuizSummary(
     val correctCount: Int,
     val wrongCount: Int,
     val skippedCount: Int,
+    val elapsedTimeMillis: Long,
     val results: List<QuestionResult>
 )

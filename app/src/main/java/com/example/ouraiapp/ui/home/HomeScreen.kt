@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.ouraiapp.domain.model.DifficultyLevel
+import com.example.ouraiapp.ui.common.AppAnimatedBackground
 
 @Composable
 fun HomeScreen(
@@ -48,105 +49,102 @@ fun HomeScreen(
 ) {
     val levels = DifficultyLevel.entries
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(Color(0xFF06111A), Color(0xFF0A1021))
-                )
-            )
-            .statusBarsPadding()
-            .padding(horizontal = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(18.dp)
-    ) {
-        item { Spacer(modifier = Modifier.height(12.dp)) }
-        item {
-            Column {
+    AppAnimatedBackground {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .padding(horizontal = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(18.dp)
+        ) {
+            item { Spacer(modifier = Modifier.height(12.dp)) }
+            item {
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Surface(
+                            shape = RoundedCornerShape(28.dp),
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.16f),
+                            modifier = Modifier.size(88.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Code,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(42.dp)
+                                )
+                            }
+                        }
+                        Surface(
+                            shape = CircleShape,
+                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f)
+                        ) {
+                            IconButton(onClick = onOpenTutorial) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Outlined.HelpOutline,
+                                    contentDescription = "Open tutorial",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(
+                        text = "Android Interview Prep",
+                        style = MaterialTheme.typography.displaySmall,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Master Android concepts with targeted quiz sessions",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+            item {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Top
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Surface(
-                        shape = RoundedCornerShape(28.dp),
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.16f),
-                        modifier = Modifier.size(88.dp)
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Icon(
-                                imageVector = Icons.Outlined.Code,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(42.dp)
-                            )
-                        }
-                    }
-                    Surface(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f)
-                    ) {
-                        IconButton(onClick = onOpenTutorial) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Outlined.HelpOutline,
-                                contentDescription = "Open tutorial",
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
+                    HomeStat("90+", "Questions")
+                    HomeStat("3", "Levels")
+                    HomeStat("30+", "Topics")
                 }
-                Spacer(modifier = Modifier.height(20.dp))
+            }
+            item {
                 Text(
-                    text = "Android Interview Prep",
-                    style = MaterialTheme.typography.displaySmall,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Master Android concepts with targeted quiz sessions",
-                    style = MaterialTheme.typography.bodyLarge,
+                    text = "Choose Your Level",
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-        }
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                HomeStat("90+", "Questions")
-                HomeStat("3", "Levels")
-                HomeStat("30+", "Topics")
+            items(levels) { level ->
+                LevelCard(
+                    difficultyLevel = level,
+                    icon = when (level) {
+                        DifficultyLevel.JUNIOR -> Icons.Outlined.Code
+                        DifficultyLevel.MID -> Icons.Outlined.RocketLaunch
+                        DifficultyLevel.ADVANCED -> Icons.Outlined.Memory
+                    },
+                    onClick = { onSelectLevel(level) }
+                )
             }
-        }
-        item {
-            Text(
-                text = "Choose Your Level",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-        items(levels) { level ->
-            LevelCard(
-                difficultyLevel = level,
-                icon = when (level) {
-                    DifficultyLevel.JUNIOR -> Icons.Outlined.Code
-                    DifficultyLevel.MID -> Icons.Outlined.RocketLaunch
-                    DifficultyLevel.ADVANCED -> Icons.Outlined.Memory
-                },
-                onClick = { onSelectLevel(level) }
-            )
-        }
-        item {
-            Text(
-                text = "All questions include detailed explanations and optional AI-assisted follow-ups.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 24.dp)
-            )
+            item {
+                Text(
+                    text = "All questions include detailed explanations and optional AI-assisted follow-ups.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 24.dp)
+                )
+            }
         }
     }
 }

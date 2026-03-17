@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.ouraiapp.ui.common.AppAnimatedBackground
 import kotlinx.coroutines.launch
 
 @Composable
@@ -53,15 +54,8 @@ fun OnboardingScreen(
     val pagerState = rememberPagerState(pageCount = { viewModel.pages.size })
     val scope = rememberCoroutineScope()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(Color(0xFF07111C), Color(0xFF0B1020))
-                )
-            )
-            .padding(20.dp)
+    AppAnimatedBackground(
+        modifier = Modifier.padding(20.dp)
     ) {
         IconButton(
             onClick = {
