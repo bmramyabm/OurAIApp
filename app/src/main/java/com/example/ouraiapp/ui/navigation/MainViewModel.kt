@@ -5,11 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.ouraiapp.domain.usecase.ObserveOnboardingCompletedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 data class MainUiState(
     val isLoading: Boolean = true,
@@ -21,17 +20,16 @@ class MainViewModel @Inject constructor(
     observeOnboardingCompletedUseCase: ObserveOnboardingCompletedUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(MainUiState())
-    val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
-
-    init {
-        observeOnboardingCompletedUseCase()
-            .onEach { completed ->
-                _uiState.value = MainUiState(
-                    isLoading = false,
-                    onboardingCompleted = completed
-                )
-            }
-            .launchIn(viewModelScope)
-    }
+    val uiState: StateFlow<MainUiState> = observeOnboardingCompletedUseCase()
+        .map { onboardingCompleted ->
+            MainUiState(
+                isLoading = false,
+                onboardingCompleted = onboardingCompleted
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = MainUiState()
+        )
 }

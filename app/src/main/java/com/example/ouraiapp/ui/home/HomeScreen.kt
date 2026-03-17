@@ -21,8 +21,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.material.icons.automirrored.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Code
-import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material3.Card
@@ -88,7 +88,7 @@ fun HomeScreen(
                     ) {
                         IconButton(onClick = onOpenTutorial) {
                             Icon(
-                                imageVector = Icons.Outlined.HelpOutline,
+                                imageVector = Icons.AutoMirrored.Outlined.HelpOutline,
                                 contentDescription = "Open tutorial",
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )

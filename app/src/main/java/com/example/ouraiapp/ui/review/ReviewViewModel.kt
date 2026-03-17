@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.ouraiapp.domain.model.QuestionResult
 import com.example.ouraiapp.domain.model.QuizSummary
 import com.example.ouraiapp.domain.usecase.AskAiForQuestionUseCase
+import com.example.ouraiapp.domain.usecase.ObserveAiExplanationUsageCountUseCase
 import com.example.ouraiapp.domain.usecase.ObserveLatestQuizSummaryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -18,12 +19,14 @@ import kotlinx.coroutines.launch
 data class ReviewUiState(
     val summary: QuizSummary? = null,
     val aiResponses: Map<Int, String> = emptyMap(),
-    val loadingQuestionIds: Set<Int> = emptySet()
+    val loadingQuestionIds: Set<Int> = emptySet(),
+    val aiExplanationUsageCount: Int = 0
 )
 
 @HiltViewModel
 class ReviewViewModel @Inject constructor(
     observeLatestQuizSummaryUseCase: ObserveLatestQuizSummaryUseCase,
+    observeAiExplanationUsageCountUseCase: ObserveAiExplanationUsageCountUseCase,
     private val askAiForQuestionUseCase: AskAiForQuestionUseCase
 ) : ViewModel() {
 
@@ -34,6 +37,12 @@ class ReviewViewModel @Inject constructor(
         observeLatestQuizSummaryUseCase()
             .onEach { summary ->
                 _uiState.value = _uiState.value.copy(summary = summary)
+            }
+            .launchIn(viewModelScope)
+
+        observeAiExplanationUsageCountUseCase()
+            .onEach { count ->
+                _uiState.value = _uiState.value.copy(aiExplanationUsageCount = count)
             }
             .launchIn(viewModelScope)
     }

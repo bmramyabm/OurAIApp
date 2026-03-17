@@ -37,10 +37,29 @@ class CompleteOnboardingUseCase @Inject constructor(
     suspend operator fun invoke() = preferencesRepository.setOnboardingCompleted(true)
 }
 
-class AskAiForQuestionUseCase @Inject constructor(
-    private val aiRepository: AiRepository
+class ObserveAiExplanationUsageCountUseCase @Inject constructor(
+    private val preferencesRepository: PreferencesRepository
 ) {
-    suspend operator fun invoke(result: QuestionResult): Result<String> = aiRepository.askQuestionHelp(result)
+    operator fun invoke(): Flow<Int> = preferencesRepository.aiExplanationUsageCount
+}
+
+class AskAiForQuestionUseCase @Inject constructor(
+    private val aiRepository: AiRepository,
+    private val preferencesRepository: PreferencesRepository
+) {
+    suspend operator fun invoke(result: QuestionResult): Result<String> {
+        val usageCount = preferencesRepository.incrementAiExplanationUsage()
+        if (usageCount > FREE_AI_EXPLANATION_LIMIT) {
+            return Result.success(
+                "Upgrade coming soon.\n\nYou have used your first 5 local AI explanations. A future premium option will unlock more explanations."
+            )
+        }
+        return aiRepository.askQuestionHelp(result)
+    }
+
+    private companion object {
+        const val FREE_AI_EXPLANATION_LIMIT = 5
+    }
 }
 
 class SaveQuizSummaryUseCase @Inject constructor(
